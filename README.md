@@ -2,15 +2,8 @@
 
 Branches hebben lowercase namen.
 
-![image](https://github.com/user-attachments/assets/88070fe3-0dc2-409a-8b82-aae87f7e4ab1)
-
-# 🛒 Bumbo applicatie
-
-<br />
-
 ## 📄 Inhoud
 1. [Uitleg](#-uitleg)
-2. [Trello](#-trello)
 3. [Coding guidelines](#-coding-guidelines)
 4. [Handige linkjes](#-handige-linkjes)
 
