@@ -1,3 +1,42 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Ninjas";
 }
+
+<h1 class="mb-4">Ninja Overview</h1>
+
+<body>
+    <div class="d-flex justify-content-start">
+        <div class="card w-auto p-2 me-3 position-relative">
+            <img src="img/ninjaCard.png" class="card-img-top shadow-sm" style="max-width: 200px; height: auto;" />
+            <div class="row g-0">
+                <div class="col-8">
+                    <input type="text" pattern="[A-Za-z]+" oninput="restrictToLetters(this)" maxlength="10" placeholder="Name" class="mt-2 mb-1 inputname" required />
+                    <div>Gold: 0</div>
+                    <div>Strength: 0</div>
+                    <div>Intelligence: 0</div>
+                    <div>Agility: 0</div>
+                </div>
+            </div>
+            <button class="rounded-2 bg-success border-0 p-1 position-absolute" style="bottom: 10px; right: 10px;">
+                <a asp-action="Create" class="text-decoration-none text-white">
+                    Create
+                </a>
+            </button>
+        </div>
+
+        <div class="card w-auto p-2 me-3">
+            <a asp-action="Inventory" class="text-reset text-decoration-none">
+                <img src="img/ninjaCard.png" height="300" width="200" />
+                <div>
+                    <h2>Name</h2>
+                    <div>Gold: 0</div>
+                    <div>Strength: 0</div>
+                    <div>Intelligence: 0</div>
+                    <div>Agility: 0</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script src="js/ninjaCreate.js"></script>
+</body>
