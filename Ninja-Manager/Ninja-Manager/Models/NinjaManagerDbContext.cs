@@ -23,9 +23,9 @@ namespace Ninja_Manager.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
        => optionsBuilder.UseSqlServer(Configuration.GetConnectionString("NinjaManagerDb"));
 
-        DbSet<Ninja> Ninjas { get; set; }
+        public DbSet<Ninja> Ninjas { get; set; }
 
-        DbSet<Gear> Gears { get; set; }
+        public DbSet<Gear> Gears { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
