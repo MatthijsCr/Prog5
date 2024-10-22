@@ -4,7 +4,7 @@ using Ninja_Manager.Models;
 
 namespace BumboApp.Models
 {
-    public class ContextFactory : IDesignTimeDbContextFactory<NinjaDbContext>
+    public class ContextFactory : IDesignTimeDbContextFactory<NinjaManagerDbContext>
     {
         public ContextFactory()
         {
@@ -14,13 +14,13 @@ namespace BumboApp.Models
           .AddJsonFile("appsettings.json")
           .Build();
 
-        public NinjaDbContext CreateDbContext(string[] args)
+        public NinjaManagerDbContext CreateDbContext(string[] args)
         {
 
-            var builder = new DbContextOptionsBuilder<NinjaDbContext>();
+            var builder = new DbContextOptionsBuilder<NinjaManagerDbContext>();
             builder.UseSqlServer(Configuration.GetConnectionString("NinjaDb"));
 
-            return new NinjaDbContext(builder.Options);
+            return new NinjaManagerDbContext(builder.Options);
         }
     }
 }
