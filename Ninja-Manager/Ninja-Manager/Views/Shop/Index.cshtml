@@ -1,0 +1,58 @@
+﻿@model List<Gear>
+
+@{
+    ViewData["Title"] = "Shop" + ViewBag.Ninja.Name;
+}
+
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Cost</th>
+                <th>Strength</th>
+                <th>Intelligence</th>
+                <th>Agility</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Gear item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Cost</td>
+                    <td>@item.Strength</td>
+                    <td>@item.Intelligence</td>
+                    <td>@item.Agility</td>
+                    <td>@item.Type</td>
+                    <td>
+                        @{
+                            string Message = "inruilen";
+                            
+                            if(!(((List<Gear>)ViewBag.NinjaGear).Any(e => e.Type == item.Type))) 
+                            {
+                                Message = "kopen";
+                            }
+                        }
+                        @if((int)ViewBag.NinjaGold < item.Cost)
+                        {
+                            <button class="btn btn-outline-primary" disabled>
+                                @Message
+                            </button>
+                        }
+                        else
+                        {
+                            <button formmethod="post" asp-action="Buy" asp-controller="Shop" class="btn btn-outline-primary" asp-route-gearId="@item.Id" asp-route-ninjaId="@ViewBag.NinjaId">
+                                @Message
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+            }
+        </tbody>
+    </table>
+</div>
+
