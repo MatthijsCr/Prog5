@@ -36,3 +36,10 @@ body {
     overflow: hidden; /* Verbergt tekst die buiten de max-height valt */
     transition: max-height 0.2s ease; /* Voor een vloeiende overgang */
 }
+
+.error {
+    max-width: 200px;
+    min-width: 200px;
+    width: 200px;
+    padding: 0;
+}

@@ -20,9 +20,14 @@ namespace Ninja_Manager.Controllers
         [HttpPost]
         public IActionResult Create(string name)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name.Trim()))
             {
-                TempData["ErrorMessage"] = "Name cannot be empty. Please provide a valid name.";
+                TempData["ErrorMessage"] = "Name cannot be empty.";
+                return RedirectToAction("Index");
+            }
+            else if (name.Length > 10)
+            {
+                TempData["ErrorMessage"] = "Longer than 10 characters.";
                 return RedirectToAction("Index");
             }
 

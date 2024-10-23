@@ -1,6 +1,8 @@
 ﻿
 @{
     ViewData["Title"] = "Ninjas";
+
+    var errorMessage = TempData["ErrorMessage"] as string;
 }
 
 @model List<Ninja_Manager.Models.Ninja>
@@ -18,6 +20,12 @@
                 <img src="img/ninjaCard.png" class="card-img-top shadow-sm mb-2" style="max-width: 200px; height: auto;" />
                 <div class="col-8">
                     <span class="error-message" style="color: red; display: none;"></span>
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger error">
+                            @errorMessage
+                        </div>
+                    }
                     <input type="text" name="name" pattern="[ A-Za-z]+" oninput="restrictToLetters(this)" maxlength="10" placeholder="Name" class="mb-1 rounded-2 p-1 inputname" />
                     <div>Gold: 1000</div>
                     <div>Strength: 0</div>
