@@ -9,12 +9,14 @@ namespace Ninja_Manager.Controllers
         public IActionResult Index(int NinjaId, Category? Type)
         {
             List<Gear> totalGear = Context.Gears.ToList();
-            ViewBag.Ninja = Context.Ninjas.Find(NinjaId).Name;
+            Ninja ninja = (Ninja)Context.Ninjas.Where(e => e.Id == NinjaId);
+            if (ninja == null) { RedirectToAction("Index", "Ninja"); }
+
+            ViewBag.Ninja = ninja.Name;
             ViewBag.NinjaId = NinjaId;
-            ViewBag.NinjaGold = Context.Ninjas.Find(NinjaId).Gold;
+            ViewBag.NinjaGold = ninja.Gold;
             ViewBag.Type = Type;
-            ViewBag.NinjaGear = Context.Ninjas.Find(NinjaId).GearForNinja;
-            List<Gear> ninjaGear = Context.Ninjas.Find(NinjaId).GearForNinja;
+            List<Gear> ninjaGear = ninja.GearForNinja;
             if (ninjaGear == null)
             {
                 ninjaGear = new List<Gear>();
@@ -32,8 +34,8 @@ namespace Ninja_Manager.Controllers
         [HttpPost]
         public IActionResult Buy(int gearId, int ninjaId)
         {
-            Ninja ninja = Context.Ninjas.Find(ninjaId);
-            Gear gear = Context.Gears.Find(gearId);
+            Ninja ninja = (Ninja)Context.Ninjas.Where(e => e.Id == ninjaId);
+            Gear gear = (Gear)Context.Gears.Where(e => e.Id == gearId);
             if (!(ninja == null || gear == null))
             {
                 if(ninja.GearForNinja.Any(g => g.Type == gear.Type))
