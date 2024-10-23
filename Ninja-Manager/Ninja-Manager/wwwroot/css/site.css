@@ -25,5 +25,12 @@ body {
     border-style: solid;
     border-color: rgb(80,80,80);
     box-shadow: none;
-    border-radius: 8px;
+}
+
+.error-message {
+    color: red;
+    display: none; /* Standaard verborgen */
+    max-height: 40px; /* Max hoogte om te voorkomen dat de card groeit */
+    overflow: hidden; /* Verbergt tekst die buiten de max-height valt */
+    transition: max-height 0.2s ease; /* Voor een vloeiende overgang */
 }
