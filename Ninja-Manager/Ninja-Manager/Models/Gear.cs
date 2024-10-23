@@ -12,16 +12,16 @@ namespace Ninja_Manager.Models
         public string Name { get; set; }
 
         [Required]
-        public Category type { get; set; }
+        public Category Type { get; set; }
 
         [Required]
-        public int strength { get; set; }
+        public int Strength { get; set; }
 
         [Required]
-        public int intelligence { get; set; }
+        public int Intelligence { get; set; }
 
         [Required]
-        public int agility { get; set; }
+        public int Agility { get; set; }
 
         [Required]
         public int Cost { get; set; }
