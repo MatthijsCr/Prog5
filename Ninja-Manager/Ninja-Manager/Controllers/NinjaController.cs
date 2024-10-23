@@ -9,10 +9,12 @@ namespace Ninja_Manager.Controllers
     {
         NinjaManagerDbContext context = new();
 
-
         public IActionResult Index()
         {
-            return View();
+            var NinjaList = context.Ninjas
+                .Include(n => n.GearForNinja).ToList();
+
+            return View(NinjaList);
         }
 
         [HttpPost]
@@ -24,7 +26,7 @@ namespace Ninja_Manager.Controllers
                 return RedirectToAction("Index");
             }
 
-            context.Ninjas.Add(new Ninja { Name = name });
+            context.Ninjas.Add(new Ninja { Name = name, Gold = 1000 });
             context.SaveChanges();
 
             return RedirectToAction("Index");

@@ -23,8 +23,10 @@ body {
 
 .inputname {
     border-style: solid;
-    border-color: rgb(80,80,80);
+    border-color: rgb(150,150,150);
     box-shadow: none;
+    font-weight: 600;
+    width: 200px;
 }
 
 .error-message {

@@ -1,18 +1,25 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Ninjas";
 }
 
+@model List<Ninja_Manager.Models.Ninja>
+
 <h1 class="mb-4">Ninja Overview</h1>
 
+<head>
+    <link rel="icon" type="image/x-icon" href="~/img/ninja-icon.ico" />
+</head>
+
 <body>
-    <div class="d-flex justify-content-start">
+    <div class="d-flex justify-content-start flex-wrap">
         <form asp-action="Create" method="post" class="row g-0" onsubmit="return validateForm();">
-            <div class="card w-auto p-2 me-3 position-relative">
+            <div class="card w-auto p-2 me-3 mb-3 position-relative">
                 <img src="img/ninjaCard.png" class="card-img-top shadow-sm mb-2" style="max-width: 200px; height: auto;" />
                 <div class="col-8">
                     <span class="error-message" style="color: red; display: none;"></span>
                     <input type="text" name="name" pattern="[ A-Za-z]+" oninput="restrictToLetters(this)" maxlength="10" placeholder="Name" class="mb-1 rounded-2 p-1 inputname" />
-                    <div>Gold: 0</div>
+                    <div>Gold: 1000</div>
                     <div>Strength: 0</div>
                     <div>Intelligence: 0</div>
                     <div>Agility: 0</div>
@@ -23,18 +30,21 @@
             </div>
         </form>
 
-        <div class="card w-auto p-2 me-3">
-            <a asp-action="Inventory" class="text-reset text-decoration-none">
-            <img src="img/ninjaCard.png" class="card-img-top shadow-sm mb-2" style="max-width: 200px; height: auto;" />
-            <div class="col-8">
-                <h5>Kaas</h5>
-                <div>Gold: 0</div>
-                <div>Strength: 0</div>
-                <div>Intelligence: 0</div>
-                <div>Agility: 0</div>
+        @foreach (var ninja in Model)
+        {
+            <div class="card w-auto p-2 me-3 mb-3">
+                <a asp-action="Inventory" class="text-reset text-decoration-none">
+                <img src="img/ninjaCard.png" class="card-img-top shadow-sm mb-2" style="max-width: 200px; height: auto;" />
+                <div class="col-8">
+                    <h5 class="fw-bold">@ninja.Name</h5>
+                    <div>Gold: @ninja.Gold</div>
+                    <div>Strength: @ninja.GetStrength()</div>
+                    <div>Intelligence: @ninja.GetIntelligence()</div>
+                    <div>Agility: @ninja.GetAgility()</div>
+                </div>
+                </a>
             </div>
-            </a>
-        </div>
+        }
     </div>
 
     <script src="js/ninjaCreate.js"></script>
