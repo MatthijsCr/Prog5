@@ -34,7 +34,6 @@ namespace Ninja_Manager.Controllers
                 {
                     foreach (Gear g in totalGear)
                     {
-                        Console.WriteLine("wayow");
                         if (g.Type == Type) { shopGear.Add(g); }
                     }
                 }
