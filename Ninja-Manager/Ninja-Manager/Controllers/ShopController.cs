@@ -23,14 +23,25 @@ namespace Ninja_Manager.Controllers
                 ViewBag.Type = Type;
                 List<Gear> ninjaGear = ninja.getGear();
                 List<Gear> shopGear = new List<Gear>();
-                foreach (Gear g in totalGear)
+                if (Type == null || Type == Category.All)
                 {
-                    if (!(ninjaGear.Contains(g))) { shopGear.Add(g); }
+                    foreach (Gear g in totalGear)
+                    {
+                        shopGear.Add(g);
+                    }
+                }
+                else
+                {
+                    foreach (Gear g in totalGear)
+                    {
+                        Console.WriteLine("wayow");
+                        if (g.Type == Type) { shopGear.Add(g); }
+                    }
                 }
                 ViewBag.NinjaGear = ninjaGear;
-                ViewBag.Categories = new List<Category> { Category.Ring, Category.Feet, Category.Chest, Category.Head, Category.Chest };
+                ViewBag.Categories = new List<Category> { Category.All, Category.Ring, Category.Feet, Category.Chest, Category.Head, Category.Chest, };
                 totalGear.OrderBy(t => t.Cost);
-                return View(totalGear);
+                return View(shopGear);
             }
             catch (Exception ex)
             {

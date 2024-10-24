@@ -5,6 +5,18 @@
 }
 
 <div class="table">
+    <form method="get" asp-action="Index">
+        <label for="gearType">Filter by Gear Type:</label>
+        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+        <select id="Type" name="Type" onchange="this.form.submit()">
+            <option value="">@ViewBag.Type</option>
+            @foreach (var type in ViewBag.Categories)
+            {
+                <option value="@type">@type.ToString()</option>
+            }
+
+        </select>
+    </form>
     <table class="table">
         <thead>
             <tr>

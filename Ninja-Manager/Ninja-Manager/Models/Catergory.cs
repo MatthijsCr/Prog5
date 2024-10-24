@@ -8,5 +8,6 @@
         Feet,
         Ring,
         Necklace,
+        All,
     }
 }
