@@ -81,5 +81,32 @@ namespace Ninja_Manager.Controllers
             }
             return RedirectToAction("Index", "Ninja");
         }
+        [HttpPost]
+        public IActionResult Sell(int GearId, int NinjaId)
+        {
+            List<Gear> gear = Context.Gears.ToList();
+            try
+            {
+                Ninja ninja = Context.Ninjas
+                .Include(n => n.GearForNinja)
+                .FirstOrDefault(n => n.Id == NinjaId);
+                Gear sellGear = gear.Where(e => e.Id == GearId).First();
+                if (!(ninja == null || sellGear == null))
+                {
+                    List<Gear> gearForNinja = ninja.GearForNinja;
+
+                    if (ninja.GearForNinja.Contains(sellGear))
+                    {
+                        ninja.Gold += sellGear.Cost;
+                        ninja.GearForNinja.Remove(sellGear);
+                    }
+                    Context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return RedirectToAction("Index", "Ninja");
+        }
     }
 }

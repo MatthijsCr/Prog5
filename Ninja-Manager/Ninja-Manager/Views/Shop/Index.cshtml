@@ -40,33 +40,48 @@
                     <td>@item.Agility</td>
                     <td>@item.Type</td>
                     <td>
-                        @{
-                            string Message = "trade-in";
-
-                            if(!(((List<Gear>)ViewBag.NinjaGear).Any(e => e.Type == item.Type))) 
-                            {
-                                Message = "Buy";
-                            }
-                            if (((List<Gear>)ViewBag.NinjaGear).Contains(item)){
-                                Message = "In Inventory";
-                            }
-                        }
-                        @if ((int)ViewBag.NinjaGold < item.Cost && !Message.Equals("In Inventory"))
+                        @if ((int)ViewBag.NinjaGold < item.Cost && !((List<Gear>)ViewBag.NinjaGear).Contains(item))
                         {
-                           
+
                             <button class="btn btn-outline-dark" disabled>
                                 too expensive
                             </button>
                         }
                         else
                         {
-                            <form method="post" asp-action="Buy" asp-controller="Shop">
-                                <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
-                                <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
-                                <button type="submit" class="btn btn-outline-dark">
-                                    @Message
-                                </button>
-                            </form>
+                            @if (((List<Gear>)ViewBag.NinjaGear).Any(e => e.Type == item.Type))
+                            {
+                                @if (((List<Gear>)ViewBag.NinjaGear).Contains(item))
+                                {
+                                    <form method="post" asp-action="Sell" asp-controller="Shop">
+                                        <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                        <button type="submit" class="btn btn-outline-dark">
+                                            Sell
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form method="post" asp-action="Buy" asp-controller="Shop">
+                                        <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                        <button type="submit" class="btn btn-outline-dark">
+                                            Trade-in
+                                        </button>
+                                    </form>
+                                }
+                            }
+                            else
+                            {
+                                <form method="post" asp-action="Buy" asp-controller="Shop">
+                                    <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
+                                    <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                    <button type="submit" class="btn btn-outline-dark">
+                                        Buy
+                                    </button>
+                                </form>
+                            }
                         }
                     </td>
                 </tr>
