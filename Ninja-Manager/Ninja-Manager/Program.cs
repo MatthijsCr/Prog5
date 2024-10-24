@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Ninja_Manager.Models;
+
 namespace Ninja_Manager
 {
     public class Program

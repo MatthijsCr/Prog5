@@ -1,10 +1,10 @@
 ﻿@model List<Gear>
 
 @{
-    ViewData["Title"] = "Shop" + ViewBag.Ninja.Name;
+    ViewData["Title"] = "Shop" + "@ViewBag.NinjaName";
 }
 
-<div class="table-container">
+<div class="table">
     <table class="table">
         <thead>
             <tr>
@@ -29,28 +29,35 @@
                     <td>@item.Type</td>
                     <td>
                         @{
-                            string Message = "inruilen";
-                            
+                            string Message = "trade-in";
+
                             if(!(((List<Gear>)ViewBag.NinjaGear).Any(e => e.Type == item.Type))) 
                             {
-                                Message = "kopen";
+                                Message = "Buy";
+                            }
+                            if (((List<Gear>)ViewBag.NinjaGear).Contains(item)){
+                                Message = "In Inventory";
                             }
                         }
-                        @if((int)ViewBag.NinjaGold < item.Cost)
+                        @if ((int)ViewBag.NinjaGold < item.Cost && !Message.Equals("In Inventory"))
                         {
-                            <button class="btn btn-outline-primary" disabled>
-                                @Message
+                           
+                            <button class="btn btn-outline-dark" disabled>
+                                too expensive
                             </button>
                         }
                         else
                         {
-                            <button formmethod="post" asp-action="Buy" asp-controller="Shop" class="btn btn-outline-primary" asp-route-gearId="@item.Id" asp-route-ninjaId="@ViewBag.NinjaId">
-                                @Message
-                            </button>
+                            <form method="post" asp-action="Buy" asp-controller="Shop">
+                                <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
+                                <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                <button type="submit" class="btn btn-outline-dark">
+                                    @Message
+                                </button>
+                            </form>
                         }
                     </td>
                 </tr>
-            }
             }
         </tbody>
     </table>

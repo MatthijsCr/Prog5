@@ -6,7 +6,6 @@ namespace Ninja_Manager.Models
     public class Ninja
     {
         [Key]
-        
         public int Id { get; set; }
 
         [Required]
@@ -17,6 +16,17 @@ namespace Ninja_Manager.Models
         public int Gold { get; set; }
 
         [Required]
-        public List<Gear> GearForNinja { get; set; }
+        public List<Gear> GearForNinja { get; set; } = new List<Gear>();
+
+        internal void AddGear(Gear buyGear)
+        {
+            if(GearForNinja == null) { GearForNinja = new List<Gear>();}
+            GearForNinja.Add(buyGear);
+        }
+
+        internal List<Gear> getGear()
+        {
+            return GearForNinja;
+        }
     }
 }
