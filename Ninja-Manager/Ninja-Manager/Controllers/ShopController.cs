@@ -21,7 +21,7 @@ namespace Ninja_Manager.Controllers
                 ViewBag.NinjaId = NinjaId;
                 ViewBag.NinjaGold = ninja.Gold;
                 ViewBag.Type = Type;
-                List<Gear> ninjaGear = ninja.getGear();
+                List<Gear> ninjaGear = ninja.GearForNinja;
                 List<Gear> shopGear = new List<Gear>();
                 if (Type == null || Type == Category.All)
                 {
@@ -71,7 +71,7 @@ namespace Ninja_Manager.Controllers
                     if (ninja.Gold >= buyGear.Cost)
                     {
                         ninja.Gold -= buyGear.Cost;
-                        ninja.AddGear(buyGear);
+                        ninja.GearForNinja.Add(buyGear);
                     }
                     Context.SaveChanges();
                 }

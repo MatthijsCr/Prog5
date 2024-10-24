@@ -41,7 +41,7 @@
         @foreach (var ninja in Model)
         {
             <div class="card w-auto p-2 me-3 mb-3">
-                <a asp-action="Inventory" class="text-reset text-decoration-none">
+                <a asp-action="Index" asp-controller="Shop" asp-route-NinjaId="@ninja.Id" class="text-reset text-decoration-none">
                 <img src="img/ninjaCard.png" class="card-img-top shadow-sm mb-2" style="max-width: 200px; height: auto;" />
                 <div class="col-8">
                     <h5 class="fw-bold">@ninja.Name</h5>
