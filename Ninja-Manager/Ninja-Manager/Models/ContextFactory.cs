@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Ninja_Manager.Models;
 
-namespace BumboApp.Models
+namespace Ninja_Manager.Models
 {
     public class ContextFactory : IDesignTimeDbContextFactory<NinjaManagerDbContext>
     {

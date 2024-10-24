@@ -20,3 +20,26 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.inputname {
+    border-style: solid;
+    border-color: rgb(150,150,150);
+    box-shadow: none;
+    font-weight: 600;
+    width: 200px;
+}
+
+.error-message {
+    color: red;
+    display: none; /* Standaard verborgen */
+    max-height: 40px; /* Max hoogte om te voorkomen dat de card groeit */
+    overflow: hidden; /* Verbergt tekst die buiten de max-height valt */
+    transition: max-height 0.2s ease; /* Voor een vloeiende overgang */
+}
+
+.error {
+    max-width: 200px;
+    min-width: 200px;
+    width: 200px;
+    padding: 0;
+}
