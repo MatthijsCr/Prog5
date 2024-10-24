@@ -6,6 +6,7 @@ namespace Ninja_Manager.Models
     public class Ninja
     {
         [Key]
+        
         public int Id { get; set; }
 
         [Required]
@@ -16,17 +17,42 @@ namespace Ninja_Manager.Models
         public int Gold { get; set; }
 
         [Required]
-        public List<Gear> GearForNinja { get; set; } = new List<Gear>();
+        public List<Gear> GearForNinja { get; set; }
 
-        internal void AddGear(Gear buyGear)
+        public int GetStrength()
         {
-            if(GearForNinja == null) { GearForNinja = new List<Gear>();}
-            GearForNinja.Add(buyGear);
+            int strength = 0;
+
+            foreach (Gear g in GearForNinja)
+            {
+                strength += g.Strength;
+            }
+
+            return strength;
         }
-
-        internal List<Gear> getGear()
+        
+        public int GetIntelligence()
         {
-            return GearForNinja;
+            int intelligence = 0;
+
+            foreach (Gear g in GearForNinja)
+            {
+                intelligence += g.Intelligence;
+            }
+
+            return intelligence;
+        }       
+        
+        public int GetAgility()
+        {
+            int agility = 0;
+
+            foreach (Gear g in GearForNinja)
+            {
+                agility += g.Agility;
+            }
+
+            return agility;
         }
     }
 }

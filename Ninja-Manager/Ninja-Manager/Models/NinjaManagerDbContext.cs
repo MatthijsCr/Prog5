@@ -30,8 +30,6 @@ namespace Ninja_Manager.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Gear>().HasData(
-            new List<Gear>
-            {
                 // Head Gear
                 new Gear { Id = 1, Name = "Rusty Helm", Intelligence = 1, Strength = 1, Agility = 0, Cost = 50, Type = Category.Head },
                 new Gear { Id = 2, Name = "Iron Helm", Intelligence = 2, Strength = 3, Agility = 1, Cost = 150, Type = Category.Head },
@@ -61,8 +59,7 @@ namespace Ninja_Manager.Models
                 new Gear { Id = 16, Name = "Wooden Necklace", Intelligence = 1, Strength = 0, Agility = 1, Cost = 40, Type = Category.Necklace },
                 new Gear { Id = 17, Name = "Silver Pendant", Intelligence = 3, Strength = 1, Agility = 2, Cost = 140, Type = Category.Necklace },
                 new Gear { Id = 18, Name = "Amulet of the Phoenix", Intelligence = 5, Strength = 0, Agility = 3, Cost = 320, Type = Category.Necklace }
-            });
-
+            );
         }
     }
 }
