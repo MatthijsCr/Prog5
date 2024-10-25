@@ -79,7 +79,7 @@ namespace Ninja_Manager.Controllers
             catch (Exception ex)
             {
             }
-            return RedirectToAction("Index", "Ninja");
+            return RedirectToAction("Index", "Shop", new { NinjaId = NinjaId });
         }
         [HttpPost]
         public IActionResult Sell(int GearId, int NinjaId)
@@ -106,7 +106,7 @@ namespace Ninja_Manager.Controllers
             catch (Exception ex)
             {
             }
-            return RedirectToAction("Index", "Ninja");
+            return RedirectToAction("Index", "Shop", new { NinjaId = NinjaId });
         }
     }
 }
