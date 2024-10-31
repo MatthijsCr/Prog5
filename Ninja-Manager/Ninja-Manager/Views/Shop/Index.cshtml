@@ -12,7 +12,7 @@
         <div class=" card col-4 d-flex justify-content-center">
             Current Gold: @ViewBag.NinjaGold
         </div>
-        <div class=" card col-4 d-flex justify-content-center">
+        <div class=" card col-3 d-flex ">
             <form method="get" asp-action="Index">
                 <label for="gearType">Filter by Gear Type:</label>
                 <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
@@ -26,6 +26,9 @@
                 </select>
             </form>
         </div>
+        <a class="btn btn-dark col-1" asp-action="Inventory" asp-controller="Ninja" asp-route-id="@ViewBag.NinjaId">
+            To Ninja
+        </a>
     </div>
     <table class="table">
         <thead>
