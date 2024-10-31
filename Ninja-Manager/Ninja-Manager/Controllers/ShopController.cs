@@ -61,18 +61,19 @@ namespace Ninja_Manager.Controllers
                 if (!(ninja == null || buyGear == null))
                 {
                     List<Gear> gearForNinja = ninja.GearForNinja;
-
+                    int tradeInValue = 0;
                     if (ninja.GearForNinja.Any(g => g.Type == buyGear.Type))
                     {
                         Gear geartoRemove = ninja.GearForNinja.Where(g => g.Type == buyGear.Type).First();
                         ninja.Gold += geartoRemove.Cost;
+                        tradeInValue = geartoRemove.Cost;
                         ninja.GearForNinja.Remove(geartoRemove);
                     }
                     if (ninja.Gold >= buyGear.Cost)
                     {
                         ninja.Gold -= buyGear.Cost;
                         ninja.GearForNinja.Add(buyGear);
-                        NotifySucces(buyGear.Name + " Bought for: " + buyGear.Cost + " gold.");
+                        NotifySucces(buyGear.Name + " bought for: " + (buyGear.Cost-tradeInValue) + " gold.");
                     }
                     Context.SaveChanges();
                 }
