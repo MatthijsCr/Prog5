@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
-using Ninja_Manager.Models;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 
 namespace Ninja_Manager
 {
@@ -11,6 +11,12 @@ namespace Ninja_Manager
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddNotyf(config =>
+            {
+                config.DurationInSeconds = 10;
+                config.IsDismissable = true;
+                config.Position = NotyfPosition.BottomRight;
+            });
 
             var app = builder.Build();
 
@@ -18,10 +24,9 @@ namespace Ninja_Manager
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseNotyf(); // This enables Notyf middleware for handling notifications
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -44,7 +44,7 @@ namespace Ninja_Manager.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Ninja");
+                return NotifyErrorAndRedirect("Something went Wrong.", "Index", "Ninja");
             }
         }
 
@@ -72,6 +72,7 @@ namespace Ninja_Manager.Controllers
                     {
                         ninja.Gold -= buyGear.Cost;
                         ninja.GearForNinja.Add(buyGear);
+                        NotifySucces(buyGear.Name + " Bought for: " + buyGear.Cost + " gold.");
                     }
                     Context.SaveChanges();
                 }
@@ -99,6 +100,7 @@ namespace Ninja_Manager.Controllers
                     {
                         ninja.Gold += sellGear.Cost;
                         ninja.GearForNinja.Remove(sellGear);
+                        NotifySucces(sellGear.Name + " sold for: " + sellGear.Cost + " gold.");
                     }
                     Context.SaveChanges();
                 }
