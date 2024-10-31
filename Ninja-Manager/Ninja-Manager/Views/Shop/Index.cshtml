@@ -1,0 +1,102 @@
+﻿@model List<Gear>
+
+@{
+    ViewData["Title"] = "Shop";
+}
+
+<div class="table">
+    <div class=" row container-fluid">
+        <div class=" card col-4 d-flex justify-content-center">
+            Current Ninja: @ViewBag.NinjaName
+        </div>
+        <div class=" card col-4 d-flex justify-content-center">
+            Current Gold: @ViewBag.NinjaGold
+        </div>
+        <div class=" card col-4 d-flex justify-content-center">
+            <form method="get" asp-action="Index">
+                <label for="gearType">Filter by Gear Type:</label>
+                <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                <select id="Type" name="Type" onchange="this.form.submit()">
+                    <option value="">@ViewBag.Type</option>
+                    @foreach (var type in ViewBag.Categories)
+                    {
+                        <option value="@type">@type.ToString()</option>
+                    }
+
+                </select>
+            </form>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Cost</th>
+                <th>Strength</th>
+                <th>Intelligence</th>
+                <th>Agility</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Gear item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Cost</td>
+                    <td>@item.Strength</td>
+                    <td>@item.Intelligence</td>
+                    <td>@item.Agility</td>
+                    <td>@item.Type</td>
+                    <td>
+                        @if ((int)ViewBag.NinjaGold < item.Cost && !((List<Gear>)ViewBag.NinjaGear).Contains(item))
+                        {
+
+                            <button class="btn btn-outline-dark" disabled>
+                                too expensive
+                            </button>
+                        }
+                        else
+                        {
+                            @if (((List<Gear>)ViewBag.NinjaGear).Any(e => e.Type == item.Type))
+                            {
+                                @if (((List<Gear>)ViewBag.NinjaGear).Contains(item))
+                                {
+                                    <form method="post" asp-action="Sell" asp-controller="Shop">
+                                        <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            Sell
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form method="post" asp-action="Buy" asp-controller="Shop">
+                                        <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                        <button type="submit" class="btn btn-outline-dark">
+                                            Trade-in
+                                        </button>
+                                    </form>
+                                }
+                            }
+                            else
+                            {
+                                <form method="post" asp-action="Buy" asp-controller="Shop">
+                                    <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
+                                    <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                    <button type="submit" class="btn btn-outline-dark">
+                                        Buy
+                                    </button>
+                                </form>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
