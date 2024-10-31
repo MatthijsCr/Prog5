@@ -41,9 +41,9 @@ namespace Ninja_Manager.Models
                 new Gear { Id = 6, Name = "Dragonscale Chest", Intelligence = 3, Strength = 6, Agility = 2, Cost = 350, Type = Category.Chest },
 
                 // Hand Gear
-                new Gear { Id = 7, Name = "Cloth Gloves", Intelligence = 1, Strength = 1, Agility = 1, Cost = 40, Type = Category.Hand },
-                new Gear { Id = 8, Name = "Leather Gloves", Intelligence = 2, Strength = 2, Agility = 2, Cost = 100, Type = Category.Hand },
-                new Gear { Id = 9, Name = "Gauntlets of Power", Intelligence = 1, Strength = 5, Agility = 1, Cost = 250, Type = Category.Hand },
+                new Gear { Id = 7, Name = "Cloth Gloves", Intelligence = 1, Strength = 1, Agility = 1, Cost = 40, Type = Category.Hands },
+                new Gear { Id = 8, Name = "Leather Gloves", Intelligence = 2, Strength = 2, Agility = 2, Cost = 100, Type = Category.Hands },
+                new Gear { Id = 9, Name = "Gauntlets of Power", Intelligence = 1, Strength = 5, Agility = 1, Cost = 250, Type = Category.Hands },
 
                 // Feet Gear
                 new Gear { Id = 10, Name = "Worn Boots", Intelligence = 0, Strength = 1, Agility = 2, Cost = 50, Type = Category.Feet },

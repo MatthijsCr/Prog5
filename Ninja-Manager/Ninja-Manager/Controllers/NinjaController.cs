@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Ninja_Manager.Models;
+using System.Threading.Tasks.Dataflow;
 
 namespace Ninja_Manager.Controllers
 {
@@ -37,9 +38,37 @@ namespace Ninja_Manager.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Inventory()
+        public IActionResult Inventory(int NinjaId)
         {
-            return View();
+            try
+            {
+                Ninja ninja = context.Ninjas
+                    .Include(n => n.GearForNinja)
+                    .FirstOrDefault(n => n.Id == NinjaId);
+
+                List<Gear> ownedGear = new List<Gear>();
+                foreach (Gear gear in ninja.GearForNinja)
+                {
+                    ownedGear.Add(context.Gears
+                        .Where(g => g.Id == gear.Id)
+                        .First());
+                }
+
+                int inventoryValue = 0;
+                foreach (Gear gear in ownedGear)
+                {
+                    inventoryValue += gear.Cost;
+                }
+                ViewBag.InventoryValue = inventoryValue;
+
+                InventoryViewModel inventoryView = new InventoryViewModel(ownedGear, ninja);
+
+                return View(inventoryView);
+            }
+            catch (Exception ex)
+            {
+                return NotifyErrorAndRedirect("Something went Wrong.", "Index", "Ninja");
+            }
         }
     }
 }
