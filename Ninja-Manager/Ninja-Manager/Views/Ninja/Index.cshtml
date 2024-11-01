@@ -15,24 +15,17 @@
 
 <body>
     <div class="d-flex justify-content-start flex-wrap">
-        <form asp-action="Create" method="post" class="row g-0" onsubmit="return validateForm();">
+        <form asp-action="Create" method="post" class="row g-0">
             <div class="card w-auto p-2 me-3 mb-3 position-relative">
                 <img src="img/ninjaCard.png" class="card-img-top shadow-sm mb-2" style="max-width: 220px; height: auto;" />
                 <div class="col-8">
-                    <span class="error-message" style="color: red; display: none;"></span>
-                    @if (!string.IsNullOrEmpty(errorMessage))
-                    {
-                        <div class="alert alert-danger error">
-                            @errorMessage
-                        </div>
-                    }
-                    <input type="text" name="name" pattern="[ A-Za-z]+" oninput="restrictToLetters(this)" maxlength="10" placeholder="Name" class="mb-1 rounded-2 p-1 inputname" />
+                    <input type="text" value="@ViewBag.Name" name="name" pattern="[ A-Za-z]+" oninput="restrictToLetters(this)" maxlength="10" placeholder="Name" class="mb-1 rounded-2 p-1 inputname" />
                     <div>Gold: 1000</div>
                     <div>Strength: 0</div>
                     <div>Agility: 0</div>
                     <div>Intelligence: 0</div>
                 </div>
-                <button type="submit" class="rounded-2 bg-success border-0 p-1 position-absolute text-white" style="bottom: 10px; right: 10px;">
+                <button type="submit" class="btn btn-success position-absolute" style="bottom: 10px; right: 10px;">
                     Create
                 </button>
             </div>
