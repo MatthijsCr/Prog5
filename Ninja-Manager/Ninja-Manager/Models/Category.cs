@@ -4,7 +4,7 @@
     {
         Head,
         Chest,
-        Hand,
+        Hands,
         Feet,
         Ring,
         Necklace,
