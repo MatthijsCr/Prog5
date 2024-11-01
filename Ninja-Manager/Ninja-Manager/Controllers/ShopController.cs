@@ -54,7 +54,7 @@ namespace Ninja_Manager.Controllers
             }
             catch (Exception ex)
             {
-                return NotifyErrorAndRedirect("Something went Wrong.", "Index", "Ninja");
+                return NotifyErrorAndRedirect("An Error occured", "Index", "Ninja");
             }
         }
 
@@ -169,6 +169,10 @@ namespace Ninja_Manager.Controllers
                 {
                     return NotifyErrorAndRedirect("Stats are not allowed to be larger than " + MaxStatSize + ".", "Index", "Shop");
                 }
+                if(Name == null)
+                {
+                    return NotifyErrorAndRedirect("Name value must be filled.", "Index", "Shop");
+                }
                 if (Name.Length <= 0)
                 {
                     return NotifyErrorAndRedirect("Name value must be filled.", "Index", "Shop");
@@ -184,7 +188,7 @@ namespace Ninja_Manager.Controllers
 
                 if (Makegear(Name, Type, Strength, Agility, Intelligence))
                 {
-                    NotifySucces(Name + "succesfully added to Gear");
+                    NotifySucces(Name + " succesfully added to Gear");
                     return RedirectToAction("Index");
                 }
                 else
@@ -194,7 +198,7 @@ namespace Ninja_Manager.Controllers
             }
             catch (Exception ex)
             {
-                return NotifyErrorAndRedirect("Something went wrong", "Index", "Shop");
+                return NotifyErrorAndRedirect("An Error occured.", "Index", "Shop");
             }
         }
 

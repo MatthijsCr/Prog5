@@ -4,7 +4,7 @@
 }
 
 
-<form method="post" asp-action="UpdateGear" class="container-fluid" id="AddGearForm">
+<form method="post" asp-action="UpdateGear" class="container-fluid" id="AddGearForm" onchange="showButton()">
     <div class="row">
         <div class="col-12 col-lg">
             <label for="Name">Name</label>
@@ -49,3 +49,9 @@
 <form method="post" asp-action="DeleteGear" asp-controller="Shop" asp-route-GearId="@Model.Id" class="container-fluid">
     <button type="submit" class=" btn btn-danger">Delete</button>
 </form>
+
+<script type="text/javascript">
+    function showButton() {
+        document.querySelector("button[type='submit']").removeAttribute("disabled");
+    }
+</script>
