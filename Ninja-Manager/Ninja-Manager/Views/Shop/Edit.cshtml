@@ -48,8 +48,7 @@
         <button type="submit" class="btn btn-dark" disabled>Save</button>
     </div>
 </form>
-<form method="post" asp-action="DeleteGear" asp-controller="Shop" asp-route-GearId="@Model.Id" class="container-fluid">
-    <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+<form method="post" asp-action="DeleteGear" asp-controller="Shop" asp-route-NinjaId="@ViewBag.NinjaId" asp-route-GearId="@Model.Id" class="container-fluid">
     <button type="submit" class=" btn btn-danger">Delete</button>
 </form>
 

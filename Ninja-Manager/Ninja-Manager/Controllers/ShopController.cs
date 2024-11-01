@@ -292,7 +292,7 @@ namespace Ninja_Manager.Controllers
                     if (n.GearForNinja.Contains(Gear))
                     {
                         int difference = Cost - Gear.Cost;
-                        if(n.Gold - difference < 0) 
+                        if(n.Gold - difference < 0 || n.GearForNinja.Where(g => g.Type == Gear.Type).Any()) 
                         { 
                             n.GearForNinja.Remove(Gear);
                             n.Gold += Gear.Cost;
@@ -304,6 +304,7 @@ namespace Ninja_Manager.Controllers
                     }
                     
                 }
+                Gear.Type = Type;
                 Gear.Cost = Cost;
                 Context.SaveChanges();
                 return true;
