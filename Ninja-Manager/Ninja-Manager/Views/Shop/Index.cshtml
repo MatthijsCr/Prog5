@@ -26,10 +26,16 @@
                 </select>
             </form>
         </div>
-        <a class="btn btn-dark col-1" asp-action="Inventory" asp-controller="Ninja" asp-route-id="@ViewBag.NinjaId">
+        <a class="btn btn-dark col-1" asp-action="Inventory" asp-controller="Ninja" asp-route-NinjaId="@ViewBag.NinjaId">
             Inventory
         </a>
     </div>
+    <form method="post" asp-action="SellAll" asp-controller="Shop" class=" row container-fluid">
+                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                        <button type="submit" class="btn btn-danger">
+                            Sell inventory
+                        </button>
+    </form>
     <table class="table">
         <thead>
             <tr>
@@ -43,16 +49,6 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <form method="post" asp-action="SellAll" asp-controller="Shop">
-                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
-                        <button type="submit" class="btn btn-danger">
-                            Sell inventory
-                        </button>
-                    </form>
-                </td>
-            </tr>
             @foreach (Gear item in Model)
             {
                 <tr>
