@@ -28,5 +28,10 @@ namespace Ninja_Manager.Models
 
         [Required]
         public List<Ninja> NinjasForGear { get; set; }
+
+        public int getCost()
+        {
+            return Cost;
+        }
     }
 }

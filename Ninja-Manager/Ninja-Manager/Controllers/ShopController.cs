@@ -39,7 +39,7 @@ namespace Ninja_Manager.Controllers
                 }
                 ViewBag.NinjaGear = ninjaGear;
                 ViewBag.Categories = new List<Category> { Category.All, Category.Ring, Category.Feet, Category.Chest, Category.Head, Category.Chest, };
-                totalGear.OrderBy(t => t.Cost);
+                totalGear.OrderBy(t => t.getCost());
                 return View(shopGear);
             }
             catch (Exception ex)
@@ -65,15 +65,17 @@ namespace Ninja_Manager.Controllers
                     if (ninja.GearForNinja.Any(g => g.Type == buyGear.Type))
                     {
                         Gear geartoRemove = ninja.GearForNinja.Where(g => g.Type == buyGear.Type).First();
-                        ninja.Gold += geartoRemove.Cost;
-                        tradeInValue = geartoRemove.Cost;
+                        int gearCost = geartoRemove.getCost();
+                        ninja.Gold += gearCost;
+                        tradeInValue = gearCost;
                         ninja.GearForNinja.Remove(geartoRemove);
                     }
-                    if (ninja.Gold >= buyGear.Cost)
+                    if (ninja.Gold >= buyGear.getCost())
                     {
-                        ninja.Gold -= buyGear.Cost;
+                        int gearCost = buyGear.getCost();
+                        ninja.Gold -= gearCost;
                         ninja.GearForNinja.Add(buyGear);
-                        NotifySucces(buyGear.Name + " bought for: " + (buyGear.Cost-tradeInValue) + " gold.");
+                        NotifySucces(buyGear.Name + " bought for: " + (gearCost - tradeInValue) + " gold.");
                     }
                     Context.SaveChanges();
                 }
@@ -99,7 +101,7 @@ namespace Ninja_Manager.Controllers
 
                     if (ninja.GearForNinja.Contains(sellGear))
                     {
-                        ninja.Gold += sellGear.Cost;
+                        ninja.Gold += sellGear.getCost();
                         ninja.GearForNinja.Remove(sellGear);
                         NotifySucces(sellGear.Name + " sold for: " + sellGear.Cost + " gold.");
                     }
@@ -108,6 +110,32 @@ namespace Ninja_Manager.Controllers
             }
             catch (Exception ex)
             {
+            }
+            return RedirectToAction("Index", "Shop", new { NinjaId = NinjaId });
+        }
+
+        [HttpPost]
+        public IActionResult SellAll(int NinjaId)
+        {
+            List<Gear> gear = Context.Gears.ToList();
+            try
+            {
+                Ninja ninja = Context.Ninjas
+                .Include(n => n.GearForNinja)
+                .FirstOrDefault(n => n.Id == NinjaId);
+                int invValue = 0;
+                foreach(Gear g in ninja.GearForNinja)
+                {
+                    invValue += g.getCost(); 
+                }
+                ninja.GearForNinja = new List<Gear>();
+                ninja.Gold += invValue;
+                Context.SaveChanges();
+                NotifySucces("Inventory sold for: " + invValue + " gold.");
+            }
+            catch (Exception ex)
+            {
+                return NotifyErrorAndRedirect("An error occured.", "Index", "Ninja");
             }
             return RedirectToAction("Index", "Shop", new { NinjaId = NinjaId });
         }
