@@ -27,7 +27,7 @@
             </form>
         </div>
         <a class="btn btn-dark col-1" asp-action="Inventory" asp-controller="Ninja" asp-route-id="@ViewBag.NinjaId">
-            To Ninja
+            Inventory
         </a>
     </div>
     <table class="table">
@@ -43,6 +43,16 @@
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td>
+                    <form method="post" asp-action="SellAll" asp-controller="Shop">
+                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                        <button type="submit" class="btn btn-danger">
+                            Sell inventory
+                        </button>
+                    </form>
+                </td>
+            </tr>
             @foreach (Gear item in Model)
             {
                 <tr>
