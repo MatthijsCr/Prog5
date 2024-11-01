@@ -215,6 +215,10 @@ namespace Ninja_Manager.Controllers
                 Cost += Strength * StrengthCost;
                 Cost += Agility * AgilityCost;
                 Cost += Intelligence * IntelligenceCost;
+                if(Cost <= 0)
+                {
+                    Cost = 20;
+                }
                 newGear.Cost = Cost;
                 newGear.Type = Type;
                 Context.Add(newGear);

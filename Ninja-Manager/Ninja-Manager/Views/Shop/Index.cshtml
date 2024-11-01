@@ -36,6 +36,7 @@
             Sell inventory
         </button>
     </form>
+
     <form method="post" asp-action="CreateGear" class="container-fluid" id="AddGearForm">
         <div class="row">
             <div class="col-12 col-lg">
@@ -54,15 +55,15 @@
             </div>
             <div class="col-12 col-lg">
                 <label for=" Category Type">Strength</label>
-                <input type="number" id="Strength" name="Strength" class="form-control" min="0" max="@ViewBag.MaxStatSize" required />
+                <input type="number" id="Strength" name="Strength" class="form-control" min="-100" max="@ViewBag.MaxStatSize" required />
             </div>
             <div class="col-12 col-lg">
                 <label for=" Category Type">Agility</label>
-                <input type="number" id="Agility" name="Agility" class="form-control" min="0" max="@ViewBag.MaxStatSize" required />
+                <input type="number" id="Agility" name="Agility" class="form-control" min="-100" max="@ViewBag.MaxStatSize" required />
             </div>
             <div class="col-12 col-lg">
                 <label for="Intelligence">Intelligence</label>
-                <input type="number" id="Intellogence" name="Intelligence" class="form-control" min="0" max="@ViewBag.MaxStatSize" required />
+                <input type="number" id="Intellogence" name="Intelligence" class="form-control" min="-100" max="@ViewBag.MaxStatSize" required />
             </div>
         </div>
         <button type="submit" class="btn btn-dark container-fluid col-1">Add</button>
