@@ -46,7 +46,7 @@
                 <label for="Type">Type</label>
                 <select id="Type" name="Type" class="form-control" form="AddGearForm" required>
                     <option></option>
-                    @foreach (var type in ViewBag.Categories)
+                    @foreach (var type in ViewBag.CreateCategories)
                     {
                         <option value="@type">@type.ToString()</option>
                     }
@@ -134,6 +134,11 @@
                                 </form>
                             }
                         }
+                    </td>
+                    <td>
+                        <a class="btn btn-dark" asp-action="Edit" asp-route-GearId = "@item.Id">
+                            Edit
+                        </a>
                     </td>
                 </tr>
             }
