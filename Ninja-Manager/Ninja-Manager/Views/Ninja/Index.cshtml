@@ -29,8 +29,8 @@
                     <input type="text" name="name" pattern="[ A-Za-z]+" oninput="restrictToLetters(this)" maxlength="10" placeholder="Name" class="mb-1 rounded-2 p-1 inputname" />
                     <div>Gold: 1000</div>
                     <div>Strength: 0</div>
-                    <div>Intelligence: 0</div>
                     <div>Agility: 0</div>
+                    <div>Intelligence: 0</div>
                 </div>
                 <button type="submit" class="rounded-2 bg-success border-0 p-1 position-absolute text-white" style="bottom: 10px; right: 10px;">
                     Create
@@ -41,14 +41,14 @@
         @foreach (var ninja in Model)
         {
             <div class="card w-auto p-2 me-3 mb-3">
-                <a asp-action="Index" asp-controller="Shop" asp-route-NinjaId="@ninja.Id" class="text-reset text-decoration-none">
+                <a asp-action="Inventory" asp-route-NinjaId="@ninja.Id" class="text-reset text-decoration-none">
                 <img src="img/ninjaCard.png" class="card-img-top shadow-sm mb-2" style="max-width: 220px; height: auto;" />
                 <div class="col-8 w-auto">
                     <h5 class="fw-bold">@ninja.Name</h5>
                     <div>Gold: @ninja.Gold</div>
                     <div>Strength: @ninja.GetStrength()</div>
+                        <div>Agility: @ninja.GetAgility()</div>
                     <div>Intelligence: @ninja.GetIntelligence()</div>
-                    <div>Agility: @ninja.GetAgility()</div>
                 </div>
                 </a>
             </div>

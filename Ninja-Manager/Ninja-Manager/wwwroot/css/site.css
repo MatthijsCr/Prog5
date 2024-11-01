@@ -43,3 +43,24 @@ body {
     width: 200px;
     padding: 0;
 }
+
+.gear-slot {
+    max-width: 200px;
+    min-width: 200px;
+    width: 200px;    
+    max-height: 160px;
+    min-height: 160px;
+    height: 160px;
+}
+
+.ninja-card {
+    max-height: 510px;
+    min-height: 510px;
+    height: 510px;
+}
+
+.spacer {
+    max-width: 100px;
+    min-width: 100px;
+    width: 100px;
+}
