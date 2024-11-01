@@ -38,6 +38,7 @@
     </form>
 
     <form method="post" asp-action="CreateGear" class="container-fluid" id="AddGearForm">
+        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
         <div class="row">
             <div class="col-12 col-lg">
                 <label for="Name">Name</label>
@@ -106,6 +107,7 @@
                                 @if (((List<Gear>)ViewBag.NinjaGear).Contains(item))
                                 {
                                     <form method="post" asp-action="Sell" asp-controller="Shop">
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                         <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
                                         <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                         <button type="submit" class="btn btn-outline-danger">
@@ -116,6 +118,7 @@
                                 else
                                 {
                                     <form method="post" asp-action="Buy" asp-controller="Shop">
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                         <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
                                         <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                         <button type="submit" class="btn btn-outline-dark">
@@ -127,6 +130,7 @@
                             else
                             {
                                 <form method="post" asp-action="Buy" asp-controller="Shop">
+                                    <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                     <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
                                     <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                     <button type="submit" class="btn btn-outline-dark">

@@ -10,15 +10,9 @@ namespace Ninja_Manager.Controllers
 {
     public class ShopController : MainController
     {
-        private int ninjaId = 1;
         public IActionResult Index(int? NinjaId, Category? Type)
         {
             List<Gear> totalGear = Context.Gears.ToList();
-            if (NinjaId == null)
-            {
-                NinjaId = ninjaId;
-            }
-            ninjaId = (int)NinjaId;
             try
             {
                 Ninja ninja = Context.Ninjas
@@ -58,13 +52,14 @@ namespace Ninja_Manager.Controllers
             }
         }
 
-        public IActionResult Edit(int GearId)
+        public IActionResult Edit(int GearId, int NinjaId)
         {
             ViewBag.Categories = new List<Category> { Category.Ring, Category.Feet, Category.Chest, Category.Head, Category.Hands, };
             ViewBag.MaxStatSize = MaxStatSize;
             ViewBag.MaxNameLength = MaxGearNameSize;
+            ViewBag.NinjaId = NinjaId;
             Gear gear = Context.Gears.Where(g => g.Id == GearId).FirstOrDefault();
-            if (gear == null) { return NotifyErrorAndRedirect("An Error occured", "Index", "Shop"); }
+            if (gear == null) { return NotifyErrorAndRedirectWithNinja("An Error occured", "Index", "Shop", NinjaId); }
             return View(gear);
         }
 
@@ -155,46 +150,90 @@ namespace Ninja_Manager.Controllers
             }
             catch (Exception ex)
             {
-                return NotifyErrorAndRedirect("An error occured.", "Index", "Ninja");
+                return NotifyErrorAndRedirectWithNinja("An Error occured", "Index", "Shop", NinjaId);
             }
             return RedirectToAction("Index", "Shop", new { NinjaId = NinjaId });
         }
 
         [HttpPost]
-        public IActionResult CreateGear(String Name, Category Type, int Strength, int Agility, int Intelligence)
+        public IActionResult CreateGear(int NinjaId, String Name, Category Type, int Strength, int Agility, int Intelligence)
         {
             try
             {
                 if (Strength > MaxStatSize || Agility > MaxStatSize || Intelligence > 10)
                 {
-                    return NotifyErrorAndRedirect("Stats are not allowed to be larger than " + MaxStatSize + ".", "Index", "Shop");
+                    return NotifyErrorAndRedirectWithNinja("Stats are not allowed to be larger than " + MaxStatSize + ".", "Index", "Shop", NinjaId);
                 }
                 if(Name == null)
                 {
-                    return NotifyErrorAndRedirect("Name value must be filled.", "Index", "Shop");
+                    return NotifyErrorAndRedirectWithNinja("Name value must be filled.", "Index", "Shop", NinjaId);
                 }
                 if (Name.Length <= 0)
                 {
-                    return NotifyErrorAndRedirect("Name value must be filled.", "Index", "Shop");
+                    return NotifyErrorAndRedirectWithNinja("Name value must be filled.", "Index", "Shop", NinjaId);
                 }
                 if (Name.Length > MaxGearNameSize)
                 {
-                    return NotifyErrorAndRedirect("Name value is not allowed to be larger than: " + MaxGearNameSize + ".", "Index", "Shop");
+                    return NotifyErrorAndRedirectWithNinja("Name value is not allowed to be larger than: " + MaxGearNameSize + ".", "Index", "Shop", NinjaId);
                 }
                 if (!new List<Category> { Category.Hands, Category.Ring, Category.Feet, Category.Chest, Category.Head }.Contains(Type))
                 {
-                    return NotifyErrorAndRedirect("Type does not exist", "Index", "Shop");
+                    return NotifyErrorAndRedirectWithNinja("Type does not exist", "Index", "Shop", NinjaId);
                 }
 
                 if (Makegear(Name, Type, Strength, Agility, Intelligence))
                 {
                     NotifySucces(Name + " succesfully added to Gear");
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { NinjaId = NinjaId});
                 }
                 else
                 {
                     throw new Exception();
                 }
+            }
+            catch (Exception ex)
+            {
+                return NotifyErrorAndRedirectWithNinja("An Error occured.", "Index", "Shop", NinjaId);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult EditGear(int GearId, String Name, Category Type, int Strength, int Agility, int Intelligence, int NinjaId)
+        {
+            try
+            {
+                Gear gear = Context.Gears.Where(g => g.Id == GearId).FirstOrDefault();
+                if ( gear == null)
+                {
+                    return NotifyErrorAndRedirectWithNinja("An Error occured.", "Index", "Shop", NinjaId);
+                }
+                if (Strength > MaxStatSize || Agility > MaxStatSize || Intelligence > 10)
+                {
+                    return NotifyErrorAndRedirectWithNinja("Stats are not allowed to be larger than " + MaxStatSize + ".", "Index", "Shop", NinjaId);
+                }
+                if (Name == null)
+                {
+                    return NotifyErrorAndRedirectWithNinja("Name value must be filled.", "Index", "Shop", NinjaId);
+                }
+                if (Name.Length <= 0)
+                {
+                    return NotifyErrorAndRedirectWithNinja("Name value must be filled.", "Index", "Shop",NinjaId);
+                }
+                if (Name.Length > MaxGearNameSize)
+                {
+                    return NotifyErrorAndRedirectWithNinja("Name value is not allowed to be larger than: " + MaxGearNameSize + ".", "Index", "Shop", NinjaId);
+                }
+                if (!new List<Category> { Category.Hands, Category.Ring, Category.Feet, Category.Chest, Category.Head }.Contains(Type))
+                {
+                    return NotifyErrorAndRedirectWithNinja("Type does not exist", "Index", "Shop", NinjaId);
+                }
+
+                if (ChangeGear(gear, Name, Type, Strength, Agility, Intelligence))
+                {
+                    NotifySucces(Name + " succesfully added to Gear");
+                    return RedirectToAction("Index","Shop", new {NinjaId = NinjaId});
+                }
+                return NotifyErrorAndRedirectWithNinja("An Error occured.", "Index", "Shop", NinjaId);
             }
             catch (Exception ex)
             {
@@ -230,20 +269,64 @@ namespace Ninja_Manager.Controllers
                 return false;
             }
         }
+
+        private bool ChangeGear(Gear Gear, String Name, Category Type, int Strength, int Agility, int Intelligence)
+        {
+            try
+            {
+                Gear.Name = Name;
+                Gear.Strength = Strength;
+                Gear.Agility = Agility;
+                Gear.Intelligence = Intelligence;
+                int Cost = 0;
+                Cost += Strength * StrengthCost;
+                Cost += Agility * AgilityCost;
+                Cost += Intelligence * IntelligenceCost;
+                if (Cost <= 0)
+                {
+                    Cost = 20;
+                }
+                List<Ninja> ninja = Context.Ninjas.Include(n => n.GearForNinja).ToList();
+                foreach (Ninja n in ninja)
+                {
+                    if (n.GearForNinja.Contains(Gear))
+                    {
+                        int difference = Cost - Gear.Cost;
+                        if(n.Gold - difference < 0) 
+                        { 
+                            n.GearForNinja.Remove(Gear);
+                            n.Gold += Gear.Cost;
+                        }
+                        else
+                        {
+                            n.Gold -= difference;
+                        }
+                    }
+                    
+                }
+                Gear.Cost = Cost;
+                Context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         [HttpPost]
-        public IActionResult DeleteGear(int GearId)
+        public IActionResult DeleteGear(int GearId,int NinjaId)
         {
             Gear deleteGear = Context.Gears.Where(g => g.Id == GearId).FirstOrDefault();
             if (deleteGear == null)
             {
-                return NotifyErrorAndRedirect("Gear could not be found", "Index", "Shop");
+                return NotifyErrorAndRedirectWithNinja("Gear could not be found", "Index", "Shop",NinjaId);
             }
             if (removeGear(deleteGear))
             {
                 NotifySucces("Deleted " + deleteGear.Name + ".");
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { NinjaId = NinjaId });
             }
-            return NotifyErrorAndRedirect("Error occured during deletion.", "Index", "Shop");
+            return NotifyErrorAndRedirectWithNinja("Error occured during deletion.", "Index", "Shop",NinjaId);
             
         }
         private bool removeGear(Gear deleteGear)

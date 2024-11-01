@@ -4,9 +4,11 @@
 }
 
 
-<form method="post" asp-action="UpdateGear" class="container-fluid" id="AddGearForm" onchange="showButton()">
+<form method="post" asp-action="EditGear" class="container-fluid" id="AddGearForm" onchange="showButton()">
     <div class="row">
         <div class="col-12 col-lg">
+            <input type="hidden" name="GearId" id="GearId" value="@Model.Id"/>
+            <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
             <label for="Name">Name</label>
             <input type="text" id="Name" name="Name" class="form-control" maxlength="@ViewBag.MaxGearNameSize" value="@Model.Name"required />
         </div>
@@ -31,12 +33,12 @@
             <input type="number" id="Strength" name="Strength" class="form-control" min="0" max="@ViewBag.MaxStatSize" value="@Model.Strength" required />
         </div>
         <div class="col-12 col-lg">
-            <label for=" Category Type">Agility</label>
-            <input type="number" id="Agility" name="Agility" class="form-control" min="0" max="@ViewBag.MaxStatSize" value="@Model.Agility" required />
-        </div>
-        <div class="col-12 col-lg">
             <label for="Intelligence">Intelligence</label>
             <input type="number" id="Intellogence" name="Intelligence" class="form-control" min="0" max="@ViewBag.MaxStatSize" value="@Model.Intelligence" required />
+        </div>
+        <div class="col-12 col-lg">
+            <label for=" Category Type">Agility</label>
+            <input type="number" id="Agility" name="Agility" class="form-control" min="0" max="@ViewBag.MaxStatSize" value="@Model.Agility" required />
         </div>
     </div>
     <div class="text-end mt-3">
@@ -47,6 +49,7 @@
     </div>
 </form>
 <form method="post" asp-action="DeleteGear" asp-controller="Shop" asp-route-GearId="@Model.Id" class="container-fluid">
+    <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
     <button type="submit" class=" btn btn-danger">Delete</button>
 </form>
 

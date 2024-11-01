@@ -44,6 +44,12 @@ namespace Ninja_Manager.Controllers
             return RedirectToAction(redirect, redirectController);
         }
 
+        protected IActionResult NotifyErrorAndRedirectWithNinja(string message, string redirect, string redirectController, int ninjaId)
+        {
+            NotifyService.Error(message);
+            return RedirectToAction(redirect, redirectController, new { ninjaId = ninjaId} );
+        }
+
         protected void NotifySucces(string message)
         {
             NotifyService.Success(message);
