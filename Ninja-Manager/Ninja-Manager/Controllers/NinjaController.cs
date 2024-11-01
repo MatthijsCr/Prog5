@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Ninja_Manager.Models;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks.Dataflow;
 
 namespace Ninja_Manager.Controllers
@@ -15,26 +16,48 @@ namespace Ninja_Manager.Controllers
             var NinjaList = context.Ninjas
                 .Include(n => n.GearForNinja).ToList();
 
+            if (TempData["Name"] != null)
+            {
+                ViewBag.Name = TempData["Name"];
+            }
+
             return View(NinjaList);
         }
 
         [HttpPost]
         public IActionResult Create(string name)
         {
-            if (string.IsNullOrEmpty(name.Trim()))
+            if (name == null)
             {
-                TempData["ErrorMessage"] = "Name cannot be empty.";
-                return RedirectToAction("Index");
+                return NotifyErrorAndRedirect("Name cannot be empty.", "Index", "Ninja");
             }
-            else if (name.Length > 10)
+
+            name = name.Trim();
+            TempData["Name"] = name;
+
+            if (name.Length > 10)
             {
-                TempData["ErrorMessage"] = "Longer than 10 characters.";
-                return RedirectToAction("Index");
+                return NotifyErrorAndRedirect("Name length must be at most 10 characters.", "Index", "Ninja");
             }
+            else if (name.Contains("  "))
+            {
+                return NotifyErrorAndRedirect("Name contains two or more consecutive spaces.", "Index", "Ninja");
+            }
+
+            foreach (Ninja n in context.Ninjas)
+            {
+                if (name.ToLower().Equals(n.Name.ToLower()))
+                {
+                    return NotifyErrorAndRedirect("A ninja with the name " + name + " already exists!", "Index", "Ninja");
+                }
+            }
+
+            TempData["Name"] = null;
 
             context.Ninjas.Add(new Ninja { Name = name, Gold = 1000 });
             context.SaveChanges();
 
+            NotifySucces("Ninja created, hello " + name + "!");
             return RedirectToAction("Index");
         }
 
