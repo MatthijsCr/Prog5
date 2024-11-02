@@ -40,7 +40,7 @@ namespace Ninja_Manager.Controllers
                 }
                 ViewBag.NinjaGear = ninjaGear;
                 ViewBag.MaxStatSize = MaxStatSize;
-                ViewBag.MaxNameLength = MaxGearNameSize;
+                ViewBag.MaxGearNameSize = MaxGearNameSize;
                 ViewBag.Categories = new List<Category> { Category.All, Category.Ring, Category.Feet, Category.Chest, Category.Head, Category.Hands, };
                 ViewBag.CreateCategories = new List<Category> { Category.Ring, Category.Feet, Category.Chest, Category.Head, Category.Hands, };
                 totalGear.OrderBy(t => t.Cost);

@@ -24,7 +24,7 @@ namespace Ninja_Manager.Controllers
         public MainController()
         {
             Context = new NinjaManagerDbContext();
-            MaxGearNameSize = 30;
+            MaxGearNameSize = 20;
             MaxStatSize = 10;
             StrengthCost = 30;
             AgilityCost = 20;
