@@ -9,7 +9,7 @@
         <div class=" card col-4 d-flex justify-content-center">
             Current Ninja: @ViewBag.NinjaName
         </div>
-        <div class=" card col-4 d-flex justify-content-center">
+        <div class=" card col-3 d-flex justify-content-center">
             Current Gold: @ViewBag.NinjaGold
         </div>
         <div class=" card col-3 d-flex ">
@@ -26,7 +26,7 @@
                 </select>
             </form>
         </div>
-        <a class="btn btn-dark col-1" asp-action="Inventory" asp-controller="Ninja" asp-route-NinjaId="@ViewBag.NinjaId">
+        <a class="btn btn-dark col-1 ms-3" asp-action="Inventory" asp-controller="Ninja" asp-route-NinjaId="@ViewBag.NinjaId">
             Inventory
         </a>
     </div>
@@ -79,6 +79,7 @@
                 <th>Intelligence</th>
                 <th>Agility</th>
                 <th>Type</th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
