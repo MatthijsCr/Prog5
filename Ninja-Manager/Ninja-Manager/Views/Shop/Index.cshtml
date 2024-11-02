@@ -30,12 +30,46 @@
             Inventory
         </a>
     </div>
-    <form method="post" asp-action="SellAll" asp-controller="Shop" class="container-fluid">
-                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
-                        <button type="submit" class="btn btn-danger">
-                            Sell inventory
-                        </button>
+    <form method="post" asp-action="SellAll" asp-controller="Shop" class="container-fluid mt-2">
+        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+        <button type="submit" class="btn btn-danger">
+            Sell inventory
+        </button>
     </form>
+
+    <form method="post" asp-action="CreateGear" class="container-fluid" id="AddGearForm">
+        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+        <div class="row">
+            <div class="col-12 col-lg">
+                <label for="Name">Name</label>
+                <input type="text" id="Name" name="Name" class="form-control" maxlength="@ViewBag.MaxGearNameSize" required />
+            </div>
+            <div class="col-12 col-lg">
+                <label for="Type">Type</label>
+                <select id="Type" name="Type" class="form-control" form="AddGearForm" required>
+                    <option></option>
+                    @foreach (var type in ViewBag.CreateCategories)
+                    {
+                        <option value="@type">@type.ToString()</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-lg">
+                <label for=" Category Type">Strength</label>
+                <input type="number" id="Strength" name="Strength" class="form-control" min="-100" max="@ViewBag.MaxStatSize" required />
+            </div>
+            <div class="col-12 col-lg">
+                <label for=" Category Type">Agility</label>
+                <input type="number" id="Agility" name="Agility" class="form-control" min="-100" max="@ViewBag.MaxStatSize" required />
+            </div>
+            <div class="col-12 col-lg">
+                <label for="Intelligence">Intelligence</label>
+                <input type="number" id="Intellogence" name="Intelligence" class="form-control" min="-100" max="@ViewBag.MaxStatSize" required />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-dark container-fluid col-1">Add</button>
+    </form>
+
     <table class="table">
         <thead>
             <tr>
@@ -73,6 +107,7 @@
                                 @if (((List<Gear>)ViewBag.NinjaGear).Contains(item))
                                 {
                                     <form method="post" asp-action="Sell" asp-controller="Shop">
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                         <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
                                         <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                         <button type="submit" class="btn btn-outline-danger">
@@ -83,6 +118,7 @@
                                 else
                                 {
                                     <form method="post" asp-action="Buy" asp-controller="Shop">
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                         <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
                                         <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                         <button type="submit" class="btn btn-outline-dark">
@@ -94,6 +130,7 @@
                             else
                             {
                                 <form method="post" asp-action="Buy" asp-controller="Shop">
+                                    <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                     <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
                                     <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
                                     <button type="submit" class="btn btn-outline-dark">
@@ -102,6 +139,11 @@
                                 </form>
                             }
                         }
+                    </td>
+                    <td>
+                        <a class="btn btn-dark" asp-action="Edit" asp-route-NinjaId="@ViewBag.NinjaId" asp-route-GearId = "@item.Id">
+                            Edit
+                        </a>
                     </td>
                 </tr>
             }

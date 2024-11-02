@@ -27,7 +27,7 @@ namespace Ninja_Manager.Models
         public int Cost { get; set; }
 
         [Required]
-        public List<Ninja> NinjasForGear { get; set; }
+        public List<Ninja> NinjasForGear { get; set; } = new List<Ninja>();
 
         public int getCost()
         {
