@@ -1,10 +1,10 @@
 ﻿@model Ninja_Manager.Models.InventoryViewModel
 
 @{
-    ViewData["Title"] = "Inventory";
+    ViewData["Title"] = "Editing Ninja";
 }
 
-<h1 class="mb-4">Inventory for @Model.Ninja.Name</h1>
+<h1 class="mb-4">Editing @Model.Ninja.Name</h1>
 
 <div class="d-flex justify-content-start">
     <div class="d-flex flex-column">
@@ -94,7 +94,7 @@
     </div>
     <div class="spacer"></div>
     <div class="d-flex flex-column p-3 align-self-center">
-        <h2>@Model.Ninja.Name</h2>
+        <input type="text" id="nameInput" name="name" pattern="[ A-Za-z]+" oninput="restrictToLetters(this)" maxlength="10" value="@(ViewBag.EditName == null ? @Model.Ninja.Name : ViewBag.EditName)" class="mb-1 rounded-2 p-1 editname fs-3" />
         <h4>Wallet: @Model.Ninja.Gold gold</h4>
         <p></p>
         <h4>Total strength: @Model.Ninja.GetStrength()</h4>
@@ -103,18 +103,47 @@
         <p></p>
         <h4>Inventory value: @ViewBag.InventoryValue</h4>
         <p></p>
-        <div class="d-flex">
-            <form asp-action="Index" asp-controller="Shop" asp-route-NinjaId="@Model.Ninja.Id">
-                <button type="submit" class="btn btn-outline-dark">
-                    Shop
-                </button>
-            </form>
-            <form asp-action="Edit" asp-controller="Ninja" asp-route-NinjaId="@Model.Ninja.Id" class="ms-2">
-                <button type="submit" class="btn btn-dark">
-                    Edit
-                </button>
-            </form>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex">
+                <form asp-action="Inventory" asp-controller="Ninja" asp-route-NinjaId="@Model.Ninja.Id">
+                    <button type="submit" class="btn btn-outline-dark">
+                        Cancel
+                    </button>
+                </form>
+                <form asp-action="Save" asp-controller="Ninja" asp-route-NinjaId="@Model.Ninja.Id" onsubmit="updateHiddenInput()" onsubmit="return validateForm()" class="ms-2">
+                    <input type="hidden" id="hiddenNameInput" name="name" />
+                    <button type="submit" class="btn btn-dark">
+                        Save
+                    </button>
+                </form>
+            </div>
+            <a class="btn btn-danger ms-5" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                Delete Ninja
+            </a>
         </div>
     </div>
 </div>
+
+<div class="modal fade align-content-center" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Deleting ninja @Model.Ninja.Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete ninja "@Model.Ninja.Name"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" asp-action="Delete" asp-controller="Ninja" asp-route-NinjaId="@Model.Ninja.Id" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/ninjaEdit.js"></script>
+<script src="/js/ninjaCreate.js"></script>
 
