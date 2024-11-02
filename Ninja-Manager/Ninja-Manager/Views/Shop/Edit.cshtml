@@ -47,7 +47,7 @@
             Delete
         </a>
         <div class="text-end">
-            <a asp-action="Index" class="btn btn-outline-dark">
+            <a asp-action="Index" asp-controller="Shop" asp-route-NinjaId="@ViewBag.NinjaId" class="btn btn-outline-dark">
                 Stop editing
             </a>
             <button type="submit" class="btn btn-dark" disabled>Save</button>

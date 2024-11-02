@@ -10,7 +10,7 @@ namespace Ninja_Manager.Controllers
 {
     public class ShopController : MainController
     {
-        public IActionResult Index(int? NinjaId, Category? Type)
+        public IActionResult Index(int NinjaId, Category? Type)
         {
             List<Gear> totalGear = Context.Gears.ToList();
             try
