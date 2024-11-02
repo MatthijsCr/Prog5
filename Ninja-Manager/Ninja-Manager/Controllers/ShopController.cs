@@ -90,7 +90,7 @@ namespace Ninja_Manager.Controllers
                         int gearCost = buyGear.Cost;
                         ninja.Gold -= gearCost;
                         ninja.GearForNinja.Add(buyGear);
-                        NotifySucces(buyGear.Name + " bought for: " + (gearCost - tradeInValue) + " gold.");
+                        NotifySuccess(buyGear.Name + " bought for: " + (gearCost - tradeInValue) + " gold.");
                     }
                     else
                     {
@@ -122,7 +122,7 @@ namespace Ninja_Manager.Controllers
                     {
                         ninja.Gold += sellGear.Cost;
                         ninja.GearForNinja.Remove(sellGear);
-                        NotifySucces(sellGear.Name + " sold for: " + sellGear.Cost + " gold.");
+                        NotifySuccess(sellGear.Name + " sold for: " + sellGear.Cost + " gold.");
                     }
                     Context.SaveChanges();
                 }
@@ -150,7 +150,7 @@ namespace Ninja_Manager.Controllers
                 ninja.GearForNinja = new List<Gear>();
                 ninja.Gold += invValue;
                 Context.SaveChanges();
-                NotifySucces("Inventory sold for: " + invValue + " gold.");
+                NotifySuccess("Inventory sold for: " + invValue + " gold.");
             }
             catch (Exception ex)
             {
@@ -187,7 +187,7 @@ namespace Ninja_Manager.Controllers
 
                 if (Makegear(Name, Type, Strength, Agility, Intelligence))
                 {
-                    NotifySucces(Name + " succesfully added to Gear");
+                    NotifySuccess(Name + " succesfully added to Gear");
                     return RedirectToAction("Index", new { NinjaId = NinjaId});
                 }
                 else
@@ -262,7 +262,7 @@ namespace Ninja_Manager.Controllers
 
                 if (ChangeGear(gear, Name, Type, Strength, Agility, Intelligence))
                 {
-                    NotifySucces(Name + " succesfully added to Gear");
+                    NotifySuccess(Name + " succesfully added to Gear");
                     return RedirectToAction("Index","Shop", new {NinjaId = NinjaId});
                 }
                 return NotifyErrorAndRedirectWithNinja("An Error occured.", "Index", "Shop", NinjaId);
@@ -327,7 +327,7 @@ namespace Ninja_Manager.Controllers
             }
             if (removeGear(deleteGear))
             {
-                NotifySucces("Deleted " + deleteGear.Name + ".");
+                NotifySuccess("Deleted " + deleteGear.Name + ".");
                 return RedirectToAction("Index", new { NinjaId = NinjaId });
             }
             return NotifyErrorAndRedirectWithNinja("Error occured during deletion.", "Index", "Shop",NinjaId);

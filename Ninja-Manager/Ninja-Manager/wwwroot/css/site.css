@@ -29,6 +29,13 @@ body {
     width: 220px;
 }
 
+.editname {
+    border-style: solid;
+    border-color: rgb(150,150,150);
+    box-shadow: none;
+    font-weight: 600;
+}
+
 .error-message {
     color: red;
     display: none; /* Standaard verborgen */

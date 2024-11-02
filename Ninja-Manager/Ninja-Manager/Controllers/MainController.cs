@@ -50,7 +50,7 @@ namespace Ninja_Manager.Controllers
             return RedirectToAction(redirect, redirectController, new { ninjaId = ninjaId} );
         }
 
-        protected void NotifySucces(string message)
+        protected void NotifySuccess(string message)
         {
             NotifyService.Success(message);
         }
