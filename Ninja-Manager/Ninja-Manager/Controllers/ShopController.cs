@@ -12,7 +12,8 @@ namespace Ninja_Manager.Controllers
     {
         public IActionResult Index(int NinjaId, Category? Type)
         {
-            List<Gear> totalGear = Context.Gears.ToList();
+            List<Gear> totalGear = Context.Gears.OrderBy(g => g.Type).ThenBy(g => g.Cost).ToList();
+
             try
             {
                 Ninja ninja = Context.Ninjas
@@ -43,7 +44,6 @@ namespace Ninja_Manager.Controllers
                 ViewBag.MaxGearNameSize = MaxGearNameSize;
                 ViewBag.Categories = new List<Category> { Category.All, Category.Ring, Category.Feet, Category.Chest, Category.Head, Category.Hands, };
                 ViewBag.CreateCategories = new List<Category> { Category.Ring, Category.Feet, Category.Chest, Category.Head, Category.Hands, };
-                totalGear.OrderBy(t => t.Cost);
                 return View(shopGear);
             }
             catch (Exception ex)
