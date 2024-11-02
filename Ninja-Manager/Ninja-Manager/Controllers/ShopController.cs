@@ -43,7 +43,7 @@ namespace Ninja_Manager.Controllers
                 ViewBag.MaxNameLength = MaxGearNameSize;
                 ViewBag.Categories = new List<Category> { Category.All, Category.Ring, Category.Feet, Category.Chest, Category.Head, Category.Hands, };
                 ViewBag.CreateCategories = new List<Category> { Category.Ring, Category.Feet, Category.Chest, Category.Head, Category.Hands, };
-                totalGear.OrderBy(t => t.getCost());
+                totalGear.OrderBy(t => t.Cost);
                 return View(shopGear);
             }
             catch (Exception ex)
@@ -80,17 +80,21 @@ namespace Ninja_Manager.Controllers
                     if (ninja.GearForNinja.Any(g => g.Type == buyGear.Type))
                     {
                         Gear geartoRemove = ninja.GearForNinja.Where(g => g.Type == buyGear.Type).First();
-                        int gearCost = geartoRemove.getCost();
+                        int gearCost = geartoRemove.Cost;
                         ninja.Gold += gearCost;
                         tradeInValue = gearCost;
                         ninja.GearForNinja.Remove(geartoRemove);
                     }
-                    if (ninja.Gold >= buyGear.getCost())
+                    if (ninja.Gold >= buyGear.Cost)
                     {
-                        int gearCost = buyGear.getCost();
+                        int gearCost = buyGear.Cost;
                         ninja.Gold -= gearCost;
                         ninja.GearForNinja.Add(buyGear);
                         NotifySucces(buyGear.Name + " bought for: " + (gearCost - tradeInValue) + " gold.");
+                    }
+                    else
+                    {
+                        return NotifyErrorAndRedirectWithNinja("Ninja does not have enough gold to buy " + buyGear.Name + ".", "Index", "Shop", NinjaId);
                     }
                     Context.SaveChanges();
                 }
@@ -116,7 +120,7 @@ namespace Ninja_Manager.Controllers
 
                     if (ninja.GearForNinja.Contains(sellGear))
                     {
-                        ninja.Gold += sellGear.getCost();
+                        ninja.Gold += sellGear.Cost;
                         ninja.GearForNinja.Remove(sellGear);
                         NotifySucces(sellGear.Name + " sold for: " + sellGear.Cost + " gold.");
                     }
@@ -196,6 +200,34 @@ namespace Ninja_Manager.Controllers
                 return NotifyErrorAndRedirectWithNinja("An Error occured.", "Index", "Shop", NinjaId);
             }
         }
+        private bool Makegear(String Name, Category Type, int Strength, int Agility, int Intelligence)
+        {
+            try
+            {
+                Gear newGear = new Gear();
+                newGear.Name = Name;
+                newGear.Strength = Strength;
+                newGear.Agility = Agility;
+                newGear.Intelligence = Intelligence;
+                int Cost = 0;
+                Cost += Strength * StrengthCost;
+                Cost += Agility * AgilityCost;
+                Cost += Intelligence * IntelligenceCost;
+                if (Cost <= 0)
+                {
+                    Cost = 20;
+                }
+                newGear.Cost = Cost;
+                newGear.Type = Type;
+                Context.Add(newGear);
+                Context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         [HttpPost]
         public IActionResult EditGear(int GearId, String Name, Category Type, int Strength, int Agility, int Intelligence, int NinjaId)
@@ -238,35 +270,6 @@ namespace Ninja_Manager.Controllers
             catch (Exception ex)
             {
                 return NotifyErrorAndRedirect("An Error occured.", "Index", "Shop");
-            }
-        }
-
-        private bool Makegear(String Name, Category Type, int Strength, int Agility, int Intelligence)
-        {
-            try
-            {
-                Gear newGear = new Gear();
-                newGear.Name = Name;
-                newGear.Strength = Strength;
-                newGear.Agility = Agility;
-                newGear.Intelligence = Intelligence;
-                int Cost = 0;
-                Cost += Strength * StrengthCost;
-                Cost += Agility * AgilityCost;
-                Cost += Intelligence * IntelligenceCost;
-                if(Cost <= 0)
-                {
-                    Cost = 20;
-                }
-                newGear.Cost = Cost;
-                newGear.Type = Type;
-                Context.Add(newGear);
-                Context.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
             }
         }
 
