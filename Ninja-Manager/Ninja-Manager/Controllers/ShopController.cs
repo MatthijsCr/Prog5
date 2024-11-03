@@ -58,15 +58,11 @@ namespace Ninja_Manager.Controllers
             ViewBag.MaxStatSize = MaxStatSize;
             ViewBag.MaxNameLength = MaxGearNameSize;
             ViewBag.NinjaId = NinjaId;
-            ViewBag.AmountOfNinja = 0;
             ViewBag.RightHave = "has";
-            Gear gear = Context.Gears.Where(g => g.Id == GearId).FirstOrDefault();
+            Gear gear = Context.Gears.Include(n => n.NinjasForGear).Where(g => g.Id == GearId).FirstOrDefault();
             if (gear == null) { return NotifyErrorAndRedirectWithNinja("An Error occured", "Index", "Shop", NinjaId); }
-            foreach (Ninja ninja in Context.Ninjas.Include(n => n.GearForNinja))
-            {
-                if (ninja.GearForNinja.Contains(gear)) { ViewBag.AmountOfNinja += 1; }
-            }
-            if(ViewBag.AmountOfNinja != 1)
+            ViewBag.AmountOfNinja = gear.NinjasForGear.Count;
+            if (ViewBag.AmountOfNinja != 1)
             { ViewBag.RightHave = "have"; }
             return View(gear);
         }

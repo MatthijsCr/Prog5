@@ -29,6 +29,7 @@ namespace Ninja_Manager.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Ninja>().HasMany(n => n.GearForNinja).WithMany(g => g.NinjasForGear);
             modelBuilder.Entity<Gear>().HasData(
                 // Head Gear
                 new Gear { Id = 1, Name = "Rusty Helm", Intelligence = 1, Strength = 1, Agility = 0, Cost = 50, Type = Category.Head },
