@@ -20,3 +20,54 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.inputname {
+    border-style: solid;
+    border-color: rgb(150,150,150);
+    box-shadow: none;
+    font-weight: 600;
+    width: 220px;
+}
+
+.editname {
+    border-style: solid;
+    border-color: rgb(150,150,150);
+    box-shadow: none;
+    font-weight: 600;
+}
+
+.error-message {
+    color: red;
+    display: none; /* Standaard verborgen */
+    max-height: 40px; /* Max hoogte om te voorkomen dat de card groeit */
+    overflow: hidden; /* Verbergt tekst die buiten de max-height valt */
+    transition: max-height 0.2s ease; /* Voor een vloeiende overgang */
+}
+
+.error {
+    max-width: 200px;
+    min-width: 200px;
+    width: 200px;
+    padding: 0;
+}
+
+.gear-slot {
+    max-width: 200px;
+    min-width: 200px;
+    width: 200px;    
+    max-height: 160px;
+    min-height: 160px;
+    height: 160px;
+}
+
+.ninja-card {
+    max-height: 510px;
+    min-height: 510px;
+    height: 510px;
+}
+
+.spacer {
+    max-width: 100px;
+    min-width: 100px;
+    width: 100px;
+}

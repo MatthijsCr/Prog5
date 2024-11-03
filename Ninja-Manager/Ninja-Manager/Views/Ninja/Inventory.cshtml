@@ -1,0 +1,120 @@
+﻿@model Ninja_Manager.Models.InventoryViewModel
+
+@{
+    ViewData["Title"] = "Inventory";
+}
+
+<h1 class="mb-4">Inventory for @Model.Ninja.Name</h1>
+
+<div class="d-flex justify-content-start">
+    <div class="d-flex flex-column">
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Head</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Head))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Hands</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Hands))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>        
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Feet</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Feet))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="card ms-3 p-2">
+        <img src="/img/ninjaCard.png" class="ninja-card rounded-2">
+    </div>
+    <div class="d-flex flex-column ms-3">
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Necklace</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Necklace))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Chest</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Chest))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Ring</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Ring))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="d-flex flex-column p-3 align-self-center">
+        <h2>@Model.Ninja.Name</h2>
+        <h4>Wallet: @Model.Ninja.Gold gold</h4>
+        <p></p>
+        <h4>Total strength: @Model.Ninja.GetStrength()</h4>
+        <h4>Total agility: @Model.Ninja.GetAgility()</h4>
+        <h4>Total intelligence: @Model.Ninja.GetIntelligence()</h4>
+        <p></p>
+        <h4>Inventory value: @ViewBag.InventoryValue</h4>
+        <p></p>
+        <div class="d-flex">
+            <form asp-action="Index" asp-controller="Shop" asp-route-NinjaId="@Model.Ninja.Id">
+                <button type="submit" class="btn btn-outline-dark">
+                    Shop
+                </button>
+            </form>
+            <form asp-action="Edit" asp-controller="Ninja" asp-route-NinjaId="@Model.Ninja.Id" class="ms-2">
+                <button type="submit" class="btn btn-dark">
+                    Edit
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,154 @@
+﻿@model List<Gear>
+
+@{
+    ViewData["Title"] = "Shop";
+}
+
+<div class="table">
+    <div class=" row container-fluid">
+        <div class=" card col-4 d-flex justify-content-center">
+            Current Ninja: @ViewBag.NinjaName
+        </div>
+        <div class=" card col-3 d-flex justify-content-center">
+            Current Gold: @ViewBag.NinjaGold
+        </div>
+        <div class=" card col-3 d-flex ">
+            <form method="get" asp-action="Index">
+                <label for="gearType">Filter by Gear Type:</label>
+                <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                <select id="Type" name="Type" onchange="this.form.submit()">
+                    <option value="">@ViewBag.Type</option>
+                    @foreach (var type in ViewBag.Categories)
+                    {
+                        <option value="@type">@type.ToString()</option>
+                    }
+
+                </select>
+            </form>
+        </div>
+        <a class="btn btn-dark col-1 ms-3" asp-action="Inventory" asp-controller="Ninja" asp-route-NinjaId="@ViewBag.NinjaId">
+            Inventory
+        </a>
+    </div>
+    <form method="post" asp-action="SellAll" asp-controller="Shop" class="container-fluid mt-2">
+        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+        <button type="submit" class="btn btn-danger">
+            Sell inventory
+        </button>
+    </form>
+
+    <form method="post" asp-action="CreateGear" class="container-fluid" id="AddGearForm">
+        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+        <div class="row">
+            <div class="col-12 col-lg">
+                <label for="Name">Name</label>
+                <input type="text" id="Name" name="Name" class="form-control" maxlength="@ViewBag.MaxGearNameSize" required />
+            </div>
+            <div class="col-12 col-lg">
+                <label for="Type">Type</label>
+                <select id="Type" name="Type" class="form-control" form="AddGearForm" required>
+                    <option></option>
+                    @foreach (var type in ViewBag.CreateCategories)
+                    {
+                        <option value="@type">@type.ToString()</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-lg">
+                <label for=" Category Type">Strength</label>
+                <input type="number" id="Strength" name="Strength" class="form-control" min="-100" max="@ViewBag.MaxStatSize" required />
+            </div>
+            <div class="col-12 col-lg">
+                <label for=" Category Type">Agility</label>
+                <input type="number" id="Agility" name="Agility" class="form-control" min="-100" max="@ViewBag.MaxStatSize" required />
+            </div>
+            <div class="col-12 col-lg">
+                <label for="Intelligence">Intelligence</label>
+                <input type="number" id="Intellogence" name="Intelligence" class="form-control" min="-100" max="@ViewBag.MaxStatSize" required />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-dark container-fluid col-1">Add</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Cost</th>
+                <th>Strength</th>
+                <th>Intelligence</th>
+                <th>Agility</th>
+                <th>Type</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Gear item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Cost</td>
+                    <td>@item.Strength</td>
+                    <td>@item.Intelligence</td>
+                    <td>@item.Agility</td>
+                    <td>@item.Type</td>
+                    <td>
+                        @if ((int)ViewBag.NinjaGold < item.Cost && !((List<Gear>)ViewBag.NinjaGear).Contains(item))
+                        {
+
+                            <button class="btn btn-outline-dark" disabled>
+                                too expensive
+                            </button>
+                        }
+                        else
+                        {
+                            @if (((List<Gear>)ViewBag.NinjaGear).Any(e => e.Type == item.Type))
+                            {
+                                @if (((List<Gear>)ViewBag.NinjaGear).Contains(item))
+                                {
+                                    <form method="post" asp-action="Sell" asp-controller="Shop">
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                        <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            Sell
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form method="post" asp-action="Buy" asp-controller="Shop">
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                        <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
+                                        <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                        <button type="submit" class="btn btn-outline-dark">
+                                            Trade-in
+                                        </button>
+                                    </form>
+                                }
+                            }
+                            else
+                            {
+                                <form method="post" asp-action="Buy" asp-controller="Shop">
+                                    <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                    <input type="hidden" name="GearId" id="GearId" value="@item.Id" />
+                                    <input type="hidden" name="NinjaId" id="NinjaId" value="@ViewBag.NinjaId" />
+                                    <button type="submit" class="btn btn-outline-dark">
+                                        Buy
+                                    </button>
+                                </form>
+                            }
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-dark" asp-action="Edit" asp-route-NinjaId="@ViewBag.NinjaId" asp-route-GearId = "@item.Id">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

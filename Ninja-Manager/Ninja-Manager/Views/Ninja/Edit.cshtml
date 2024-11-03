@@ -1,0 +1,149 @@
+﻿@model Ninja_Manager.Models.InventoryViewModel
+
+@{
+    ViewData["Title"] = "Editing Ninja";
+}
+
+<h1 class="mb-4">Editing @Model.Ninja.Name</h1>
+
+<div class="d-flex justify-content-start">
+    <div class="d-flex flex-column">
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Head</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Head))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Hands</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Hands))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>        
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Feet</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Feet))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="card ms-3 p-2">
+        <img src="/img/ninjaCard.png" class="ninja-card rounded-2">
+    </div>
+    <div class="d-flex flex-column ms-3">
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Necklace</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Necklace))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Chest</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Chest))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>
+        <div class="card d-flex flex-column gear-slot mt-2 mb-2">
+            <div class="m-2 align-self-center">Ring</div>
+            <hr class="m-0">
+            @foreach (Gear gear in Model.OwnedGear.Where(g => g.Type == Category.Ring))
+            {
+                <div class="m-2">
+                    <div class="fw-bold">@gear.Name</div>
+                    <div>Strength: @gear.Strength</div>
+                    <div>Agility: @gear.Agility</div>
+                    <div>Intelligence: @gear.Intelligence</div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="d-flex flex-column p-3 align-self-center">
+        <input type="text" id="nameInput" name="name" pattern="[ A-Za-z]+" oninput="restrictToLetters(this)" maxlength="10" value="@(ViewBag.EditName == null ? @Model.Ninja.Name : ViewBag.EditName)" class="mb-1 rounded-2 p-1 editname fs-3" />
+        <h4>Wallet: @Model.Ninja.Gold gold</h4>
+        <p></p>
+        <h4>Total strength: @Model.Ninja.GetStrength()</h4>
+        <h4>Total agility: @Model.Ninja.GetAgility()</h4>
+        <h4>Total intelligence: @Model.Ninja.GetIntelligence()</h4>
+        <p></p>
+        <h4>Inventory value: @ViewBag.InventoryValue</h4>
+        <p></p>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex">
+                <form asp-action="Inventory" asp-controller="Ninja" asp-route-NinjaId="@Model.Ninja.Id">
+                    <button type="submit" class="btn btn-outline-dark">
+                        Cancel
+                    </button>
+                </form>
+                <form asp-action="Save" asp-controller="Ninja" asp-route-NinjaId="@Model.Ninja.Id" onsubmit="updateHiddenInput()" onsubmit="return validateForm()" class="ms-2">
+                    <input type="hidden" id="hiddenNameInput" name="name" />
+                    <button type="submit" class="btn btn-dark">
+                        Save
+                    </button>
+                </form>
+            </div>
+            <a class="btn btn-danger ms-5" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                Delete Ninja
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade align-content-center" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Deleting ninja @Model.Ninja.Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete ninja "@Model.Ninja.Name"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" asp-action="Delete" asp-controller="Ninja" asp-route-NinjaId="@Model.Ninja.Id" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/ninjaEdit.js"></script>
+<script src="/js/ninjaCreate.js"></script>
+
