@@ -59,7 +59,7 @@ namespace Ninja_Manager.Controllers
             ViewBag.MaxNameLength = MaxGearNameSize;
             ViewBag.NinjaId = NinjaId;
             ViewBag.RightHave = "has";
-            Gear gear = Context.Gears.Include(n => n.NinjasForGear).Where(g => g.Id == GearId).FirstOrDefault();
+            Gear gear = Context.Gears.Include(g => g.NinjasForGear).Where(g => g.Id == GearId).FirstOrDefault();
             if (gear == null) { return NotifyErrorAndRedirectWithNinja("An Error occured", "Index", "Shop", NinjaId); }
             ViewBag.AmountOfNinja = gear.NinjasForGear.Count;
             if (ViewBag.AmountOfNinja != 1)
@@ -266,7 +266,7 @@ namespace Ninja_Manager.Controllers
 
                 if (ChangeGear(gear, Name, Type, Strength, Agility, Intelligence))
                 {
-                    NotifySuccess(Name + " succesfully added to Gear");
+                    NotifySuccess(Name + " succesfully changed.");
                     return RedirectToAction("Index","Shop", new {NinjaId = NinjaId});
                 }
                 return NotifyErrorAndRedirectWithNinja("An Error occured.", "Index", "Shop", NinjaId);
@@ -299,7 +299,7 @@ namespace Ninja_Manager.Controllers
                     if (n.GearForNinja.Contains(Gear))
                     {
                         int difference = Cost - Gear.Cost;
-                        if(n.Gold - difference < 0 || n.GearForNinja.Where(g => g.Type == Gear.Type).Any()) 
+                        if(n.Gold - difference < 0 || n.GearForNinja.Where(g => g.Type == Type && g != Gear).Any()) 
                         { 
                             n.GearForNinja.Remove(Gear);
                             n.Gold += Gear.Cost;
