@@ -66,7 +66,7 @@ namespace Ninja_Manager.Controllers
             {
                 if (ninja.GearForNinja.Contains(gear)) { ViewBag.AmountOfNinja += 1; }
             }
-            if(ViewBag.AmountOfNinja > 1)
+            if(ViewBag.AmountOfNinja != 1)
             { ViewBag.RightHave = "have"; }
             return View(gear);
         }
